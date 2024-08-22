@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .tabs {
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+
+        .tablinks {
+            background-color: #ddd;
+            border: none;
+            outline: none;
+            padding: 14px 16px;
+            cursor: pointer;
+            float: left;
+        }
+
+        .tablinks:hover {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border-top: none;
+            background-color: #f9f9f9;
+        }
+
+        .calculator-buttons button {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tablinks" onclick="openTab(event, 'basicCalc')">Basic Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'bmiCalc')">BMI Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'tipCalc')">Tip Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'mortgageCalc')">Mortgage Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'scientificCalc')">Scientific Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'loanCalc')">Loan Calculator</button>
+        </div>
+
+        <!-- Basic Calculator -->
+        <div id="basicCalc" class="tabcontent">
+            <h2>Basic Calculator</h2>
+            <input type="text" id="basicDisplay" disabled>
+            <div class="calculator-buttons">
+                <button onclick="appendNumber('1')">1</button>
+                <button onclick="appendNumber('2')">2</button>
+                <button onclick="appendNumber('3')">3</button>
+                <button onclick="appendNumber('+')">+</button>
+                <button onclick="appendNumber('4')">4</button>
+                <button onclick="appendNumber('5')">5</button>
+                <button onclick="appendNumber('6')">6</button>
+                <button onclick="appendNumber('-')">-</button>
+                <button onclick="appendNumber('7')">7</button>
+                <button onclick="appendNumber('8')">8</button>
+                <button onclick="appendNumber('9')">9</button>
+                <button onclick="appendNumber('*')">*</button>
+                <button onclick="appendNumber('0')">0</button>
+                <button onclick="appendNumber('.')">.</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="clearDisplay()">C</button>
+            </div>
+        </div>
+
+        <!-- BMI Calculator -->
+        <div id="bmiCalc" class="tabcontent">
+            <h2>BMI Calculator</h2>
+            <input type="number" id="bmiWeight" placeholder="Weight (kg)">
+            <input type="number" id="bmiHeight" placeholder="Height (cm)">
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <p id="bmiResult" class="result"></p>
+        </div>
+
+        <!-- Tip Calculator -->
+        <div id="tipCalc" class="tabcontent">
+            <h2>Tip Calculator</h2>
+            <input type="number" id="billAmount" placeholder="Bill Amount">
+            <input type="number" id="tipPercentage" placeholder="Tip Percentage">
+            <button onclick="calculateTip()">Calculate Tip</button>
+            <p id="tipResult" class="result"></p>
+        </div>
+
+        <!-- Mortgage Calculator -->
+        <div id="mortgageCalc" class="tabcontent">
+            <h2>Mortgage Calculator</h2>
+            <input type="number" id="principal" placeholder="Principal ($)">
+            <input type="number" id="interest" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="years" placeholder="Number of Years">
+            <button onclick="calculateMortgage()">Calculate Mortgage</button>
+            <p id="mortgageResult" class="result"></p>
+        </div>
+
+        <!-- Scientific Calculator -->
+        <div id="scientificCalc" class="tabcontent">
+            <h2>Scientific Calculator</h2>
+            <input type="text" id="scientificDisplay" disabled>
+            <div class="calculator-buttons">
+                <button onclick="appendScientificNumber('7')">7</button>
+                <button onclick="appendScientificNumber('8')">8</button>
+                <button onclick="appendScientificNumber('9')">9</button>
+                <button onclick="appendScientificNumber('/')">/</button>
+                <button onclick="appendScientificNumber('4')">4</button>
+                <button onclick="appendScientificNumber('5')">5</button>
+                <button onclick="appendScientificNumber('6')">6</button>
+                <button onclick="appendScientificNumber('*')">*</button>
+                <button onclick="appendScientificNumber('1')">1</button>
+                <button onclick="appendScientificNumber('2')">2</button>
+                <button onclick="appendScientificNumber('3')">3</button>
+                <button onclick="appendScientificNumber('-')">-</button>
+                <button onclick="appendScientificNumber('0')">0</button>
+                <button onclick="appendScientificNumber('.')">.</button>
+                <button onclick="appendScientificNumber('**')">^</button>
+                <button onclick="calculateScientificResult()">=</button>
+                <button onclick="clearScientificDisplay()">C</button>
+            </div>
+        </div>
+
+        <!-- Loan Calculator -->
+        <div id="loanCalc" class="tabcontent">
+            <h2>Loan Calculator</h2>
+            <input type="number" id="loanAmount" placeholder="Loan Amount ($)">
+            <input type="number" id="loanRate" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="loanTerm" placeholder="Term (Years)">
+            <button onclick="calculateLoan()">Calculate Loan</button>
+            <p id="loanResult" class="result"></p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function appendNumber(num) {
+            var display = document.getElementById('basicDisplay');
+            display.value += num;
+        }
+
+        function clearDisplay() {
+            var display = document.getElementById('basicDisplay');
+            display.value = '';
+        }
+
+        function calculateResult() {
+            var display = document.getElementById('basicDisplay');
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+
+        function calculateBMI() {
+            var weight = parseFloat(document.getElementById('bmiWeight').value);
+            var height = parseFloat(document.getElementById('bmiHeight').value) / 100;
+            if (isNaN(weight) || isNaN(height) || height === 0) {
+                document.getElementById('bmiResult').textContent = 'Invalid input';
+                return;
+            }
+            var bmi = weight / (height * height);
+            document.getElementById('bmiResult').textContent = 'Your BMI is: ' + bmi.toFixed(2);
+        }
+
+        function calculateTip() {
+            var billAmount = parseFloat(document.getElementById('billAmount').value);
+            var tipPercentage = parseFloat(document.getElementById('tipPercentage').value);
+            if (isNaN(billAmount) || isNaN(tipPercentage)) {
+                document.getElementById('tipResult').textContent = 'Invalid input';
+                return;
+            }
+            var tip = billAmount * (tipPercentage / 100);
+            document.getElementById('tipResult').textContent = 'Tip Amount: $' + tip.toFixed(2);
+        }
+
+        function calculateMortgage() {
+            var principal = parseFloat(document.getElementById('principal').value);
+            var interest = parseFloat(document.getElementById('interest').value) / 100 / 12;
+            var years = parseFloat(document.getElementById('years').value) * 12;
+            if (isNaN(principal) || isNaN(interest) || isNaN(years) || years === 0) {
+                document.getElementById('mortgageResult').textContent = 'Invalid input';
+                return;
+            }
+            var monthlyPayment = principal * (interest * Math.pow(1 + interest, years)) / (Math.pow(1 + interest, years) - 1);
+            document.getElementById('mortgageResult').textContent = 'Monthly Payment: $' + monthlyPayment.toFixed(2);
+        }
+
+        function appendScientificNumber(num) {
+            var display = document.getElementById('scientificDisplay');
+            display.value += num;
+        }
+
+        function clearScientificDisplay() {
+            var display = document.getElementById('scientificDisplay');
+            display.value = '';
+        }
+
+        function calculateScientificResult() {
+            var display = document.getElementById('scientificDisplay');
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+
+        function calculateLoan() {
+            var loanAmount = parseFloat(document.getElementById('loanAmount').value);
+            var annualRate = parseFloat(document.getElementById('loanRate').value) / 100;
+            var term = parseFloat(document.getElementById('loanTerm').value) * 12;
+            if (isNaN(loanAmount) || isNaN(annualRate) || isNaN(term) || term === 0) {
+                document.getElementById('loanResult').textContent = 'Invalid input';
+                return;
+            }
+            var monthlyRate = annualRate / 12;
+            var monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+            document.getElementById('loanResult').textContent = 'Monthly Payment: $' + monthlyPayment.toFixed(2);
+        }
+
+        // Open default tab
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tablinks").click();
+        });
+    </script>
+</body>
+</html>
